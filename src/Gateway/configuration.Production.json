@@ -1,0 +1,33 @@
+﻿{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/rentals",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/rentals",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "rentalsapi",
+          "Port": 5000
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/reservations",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/reservations",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reservationsapi",
+          "Port": 5100
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {}
+}

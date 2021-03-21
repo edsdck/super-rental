@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rentalsapi
+    version: "1.0"
+  name: rentalsapi-v1
+  namespace: rentalsystem
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rentalsapi
+      version: "1.0"
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: rentalsapi
+        version: "1.0"
+    spec:
+      containers:
+      - env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        image: edsdck/rental-system-rentals:1.0
+        imagePullPolicy: Always
+        name: rentalsapi
+        ports:
+        - containerPort: 5000
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rentalsapi
+  name: rentalsapi
+  namespace: rentalsystem
+spec:
+  type: ClusterIP
+  ports:
+  - name: "http-5000"
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: rentalsapi

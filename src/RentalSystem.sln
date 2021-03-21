@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rentals", "Rentals\Rentals.csproj", "{E3FEBD7D-836B-446F-989D-B1199B071D3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservations", "Reservations\Reservations.csproj", "{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3FEBD7D-836B-446F-989D-B1199B071D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FEBD7D-836B-446F-989D-B1199B071D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FEBD7D-836B-446F-989D-B1199B071D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FEBD7D-836B-446F-989D-B1199B071D3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

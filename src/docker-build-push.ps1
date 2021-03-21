@@ -1,0 +1,8 @@
+docker build -t edsdck/rental-system-rentals:1.0 .\Rentals
+docker push edsdck/rental-system-rentals:1.0
+
+docker build -t edsdck/rental-system-reservations:1.0 .\Reservations
+docker push edsdck/rental-system-reservations:1.0
+
+docker build -t edsdck/rental-system-gateway:1.0 .\Gateway
+docker push edsdck/rental-system-gateway:1.0
