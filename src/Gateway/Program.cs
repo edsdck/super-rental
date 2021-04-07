@@ -21,7 +21,6 @@ namespace Gateway
                         .AddJsonFile("appsettings.json", true, true)
                         .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true,
                             true)
-                        .AddJsonFile("ocelot.json")
                         .AddJsonFile($"configuration.{hostingContext.HostingEnvironment.EnvironmentName}.json")
                         .AddEnvironmentVariables();
                 })
