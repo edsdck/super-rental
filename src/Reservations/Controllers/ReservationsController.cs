@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Reservations.Controllers
 {
@@ -7,6 +8,7 @@ namespace Reservations.Controllers
     public class ReservationsController : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public string Get()
         {
             return "Reservations-GET";

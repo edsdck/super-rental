@@ -1,10 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rentals", "Rentals\Rentals.csproj", "{E3FEBD7D-836B-446F-989D-B1199B071D3E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservations", "Reservations\Reservations.csproj", "{F2DA77C0-9614-46F2-B6FF-2B7D10FD8A2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{93551BC6-FE6D-48EB-B3A3-07128703E38C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +27,9 @@ Global
 		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9F52957-C7A7-4602-98E7-9AB93E47D2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93551BC6-FE6D-48EB-B3A3-07128703E38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93551BC6-FE6D-48EB-B3A3-07128703E38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93551BC6-FE6D-48EB-B3A3-07128703E38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93551BC6-FE6D-48EB-B3A3-07128703E38C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
