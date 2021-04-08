@@ -10,10 +10,9 @@ metadata:
       grpc_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
 spec:
   rules:
-  - host: rental.info
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: rentalgateway
-          servicePort: 4200
+    - http:
+        paths:
+        - path: /
+          backend:
+            serviceName: rentalgateway
+            servicePort: 4200

@@ -6,3 +6,6 @@ docker push edsdck/rental-system-reservations:1.0
 
 docker build -t edsdck/rental-system-gateway:1.0 .\Gateway
 docker push edsdck/rental-system-gateway:1.0
+
+docker build -t edsdck/rental-system-identity:1.0 .\IdentityServer
+docker push edsdck/rental-system-identity:1.0

@@ -27,6 +27,20 @@
           "Port": 5100
         }
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/connect/token",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/connect/token",
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5555
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {}
