@@ -1,10 +1,14 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
+using IdentityModel;
 using IdentityServer.Data;
 using IdentityServer.Data.Entities;
+using IdentityServer.Services;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -52,7 +56,8 @@ namespace IdentityServer
             
             // setup for IdentityServer
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            var identityBuilder = services.AddIdentityServer()
+            var identityBuilder = services
+                .AddIdentityServer()
                 .AddDeveloperSigningCredential(); //TODO: use only in dev env
             
             identityBuilder.AddConfigurationStore(options =>
@@ -67,7 +72,8 @@ namespace IdentityServer
                         _configuration.GetConnectionString(DatabaseConnectionStringName),
                         sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .Services.AddTransient<IProfileService, ProfileService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -142,8 +148,8 @@ namespace IdentityServer
                     EmailConfirmed = true
                 };
 
-                var bobResult = userManager.CreateAsync(bob, "bob").Result;
+                _ = userManager.CreateAsync(bob, "bob").Result;
             }
         }
     }
-}
+}   
