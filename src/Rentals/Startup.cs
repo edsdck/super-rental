@@ -35,11 +35,13 @@ namespace Rentals
                 options.UseSqlServer(Configuration.GetConnectionString("RentalsServerDatabase")));
             
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            var identityServerConfiguration = Configuration.GetSection("IdentityServer");
             
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "http://localhost:5555";
+                    options.Authority = identityServerConfiguration["Authority"];
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
