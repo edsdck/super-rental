@@ -13,6 +13,9 @@ RUN dotnet publish Rentals.csproj -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 COPY --from=build-env /app/out .
 
+RUN apk add icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS http://*:5000
 

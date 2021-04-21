@@ -22,6 +22,17 @@ namespace Rentals.Controllers
             _rentalsContext = rentalsContext;
         }
 
+        [HttpHead("{id:int:min(1)}")]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<ActionResult> CheckExistById(int id)
+        {
+            var exist = await _rentalsContext.Rentals
+                .AnyAsync(rent => rent.Id == id);
+
+            return exist ? Ok() : NotFound();
+        }
+        
         [HttpGet("{id:int:min(1)}")]
         [ActionName(nameof(GetByIdAsync))]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

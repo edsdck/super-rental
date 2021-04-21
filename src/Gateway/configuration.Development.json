@@ -5,7 +5,9 @@
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/rentals",
       "UpstreamHttpMethod": [
-        "Get"
+        "Post",
+        "Put",
+        "Delete"
       ],
       "DownstreamHostAndPorts": [
         {
@@ -15,11 +17,54 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/rentals/{rentalId}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/rentals/{rentalId}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Head"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5000
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/rentals/{rentalId}/reservations",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/rentals/{rentalId}/reservations",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/reservations/{id}",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/reservations/{id}",
+      "UpstreamHttpMethod": [
+        "Get"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        }
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/reservations",
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/reservations",
       "UpstreamHttpMethod": [
-        "Get"
+        "Post"
       ],
       "DownstreamHostAndPorts": [
         {
