@@ -1,14 +1,26 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/rentals",
+      "DownstreamPathTemplate": "/rentals/{id}/reservations/",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/rentals",
+      "UpstreamPathTemplate": "/rentals/{id}/reservations/",
       "UpstreamHttpMethod": [
-        "Get",
+        "Get"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reservationsapi",
+          "Port": 5100
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/rentals/",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/rentals/",
+      "UpstreamHttpMethod": [
         "Post",
-        "Put",
-        "Delete"
+        "Put"
       ],
       "DownstreamHostAndPorts": [
         {
@@ -18,12 +30,13 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/rentals/{rentalId}",
+      "DownstreamPathTemplate": "/rentals/{url}/",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/rentals/{rentalId}",
+      "UpstreamPathTemplate": "/rentals/{url}/",
       "UpstreamHttpMethod": [
-        "Get",
-        "Head"
+        "Delete",
+        "Head",
+        "Get"
       ],
       "DownstreamHostAndPorts": [
         {
@@ -33,39 +46,25 @@
       ]
     },
     {
-      "DownstreamPathTemplate": "/rentals/{rentalId}/reservations",
+      "DownstreamPathTemplate": "/reservations/",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/rentals/{rentalId}/reservations",
-      "UpstreamHttpMethod": [
-        "Get"
-      ],
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "reservationsapi",
-          "Port": 5100
-        }
-      ]
-    },
-    {
-      "DownstreamPathTemplate": "/reservations/{id}",
-      "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/reservations/{id}",
-      "UpstreamHttpMethod": [
-        "Get"
-      ],
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "reservationsapi",
-          "Port": 5100
-        }
-      ]
-    },
-    {
-      "DownstreamPathTemplate": "/reservations",
-      "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/reservations",
+      "UpstreamPathTemplate": "/reservations/",
       "UpstreamHttpMethod": [
         "Post"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "reservationsapi",
+          "Port": 5100
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/reservations/{url}/",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/reservations/{url}/",
+      "UpstreamHttpMethod": [
+        "Get"
       ],
       "DownstreamHostAndPorts": [
         {
