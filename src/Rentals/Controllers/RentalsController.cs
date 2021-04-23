@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +24,25 @@ namespace Rentals.Controllers
             _rentalsContext = rentalsContext;
         }
 
+        [HttpGet("me")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<RentalDto>>> GetAllForUser()
+        {
+            var userId = User.FindFirstValue("sub");
+
+            var rentals = await _rentalsContext.Rentals
+                .Where(rent => rent.OwnerId == userId)
+                .ToListAsync();
+
+            return rentals.Select(rent => new RentalDto
+            {
+                Id = rent.Id,
+                Name = rent.Name,
+                Address = rent.Address,
+                Description = rent.Description
+            }).ToList();
+        }
+        
         [HttpHead("{id:int:min(1)}")]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.OK)]
