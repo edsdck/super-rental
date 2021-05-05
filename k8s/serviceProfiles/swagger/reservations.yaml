@@ -1,0 +1,247 @@
+openapi: 3.0.1
+info:
+  title: Reservations
+  version: v1
+paths:
+  '/rentals/{rentalId}/reservations':
+    get:
+      tags:
+        - Reservations
+      parameters:
+        - name: rentalId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: startDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+            nullable: true
+        - name: endDateUtc
+          in: query
+          schema:
+            type: string
+            format: date-time
+            nullable: true
+      responses:
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+  '/Reservations/{id}':
+    get:
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RentalDto'
+    delete:
+      tags:
+        - Reservations
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: authorization
+          in: header
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /Reservations:
+    post:
+      tags:
+        - Reservations
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    put:
+      tags:
+        - Reservations
+      parameters:
+        - name: authorization
+          in: header
+          schema:
+            type: string
+            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ReservationDto'
+      responses:
+        '201':
+          description: Success
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  schemas:
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    RentalDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ReservationDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        rentalId:
+          type: integer
+          format: int32
+        startDateUtc:
+          type: string
+          format: date-time
+        endDateUtc:
+          type: string
+          format: date-time
+        tenantName:
+          type: string
+          nullable: true
+        tenantLastName:
+          type: string
+          nullable: true
+        tenantPhoneNumber:
+          type: string
+          nullable: true
+        tenantEmail:
+          type: string
+          nullable: true
+      additionalProperties: false
