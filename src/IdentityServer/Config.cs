@@ -23,6 +23,18 @@ namespace IdentityServer
                         new Secret("secret".Sha256())
                     },
                     AllowedScopes = { "api1", "openid", "profile" }
+                },
+                new()
+                {
+                    ClientId = "interactive",
+                    ClientSecrets = new List<Secret> { new("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = new List<string> { "http://localhost:5554/signin-oidc" },
+                    PostLogoutRedirectUris = new List<string> { "http://localhost:5554/signout-callback-oidc" },
+                    AllowOfflineAccess = true,
+                    RequirePkce = true,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    AllowedScopes = new List<string> { "openid", "profile", "api1", "offline_access" }
                 }
             };
         

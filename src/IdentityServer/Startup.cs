@@ -1,16 +1,13 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using IdentityModel;
 using IdentityServer.Data;
 using IdentityServer.Data.Entities;
-using IdentityServer.Services;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +31,7 @@ namespace IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
             
             // setup for Identity
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -59,7 +56,7 @@ namespace IdentityServer
             var identityBuilder = services
                 .AddIdentityServer()
                 .AddDeveloperSigningCredential(); //TODO: use only in dev env
-            
+
             identityBuilder.AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b => b.UseSqlServer(
@@ -72,13 +69,17 @@ namespace IdentityServer
                         _configuration.GetConnectionString(DatabaseConnectionStringName),
                         sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
-                .AddAspNetIdentity<ApplicationUser>()
-                .Services.AddTransient<IProfileService, ProfileService>();
+                .AddAspNetIdentity<ApplicationUser>();
+            /*.Services.AddTransient<IProfileService, ProfileService>();*/
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             InitializeDatabase(app);
+            
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
+            
+            app.UseStaticFiles();
             
             app.UseRouting();
             
