@@ -7,7 +7,7 @@ namespace Reservations.Models.Dtos
         public int Id { get; set; }
         
         public int RentalId { get; set; }
-
+        
         public DateTime StartDateUtc { get; set; }
 
         public DateTime EndDateUtc { get; set; }

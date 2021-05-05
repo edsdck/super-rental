@@ -16,10 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kernel\Kernel.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Data\Migrations" />
     </ItemGroup>
 

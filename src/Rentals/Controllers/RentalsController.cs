@@ -48,8 +48,11 @@ namespace Rentals.Controllers
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<ActionResult> CheckExistById(int id)
         {
+            var userId = User.FindFirstValue("sub");
+            
             var exist = await _rentalsContext.Rentals
-                .AnyAsync(rent => rent.Id == id);
+                .AnyAsync(rent => rent.Id == id &&
+                                  rent.OwnerId == userId);
 
             return exist ? Ok() : NotFound();
         }

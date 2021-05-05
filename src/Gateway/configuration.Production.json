@@ -50,7 +50,8 @@
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/reservations/",
       "UpstreamHttpMethod": [
-        "Post"
+        "Post",
+        "Put"
       ],
       "DownstreamHostAndPorts": [
         {
@@ -64,7 +65,8 @@
       "DownstreamScheme": "http",
       "UpstreamPathTemplate": "/reservations/{url}/",
       "UpstreamHttpMethod": [
-        "Get"
+        "Get",
+        "Delete"
       ],
       "DownstreamHostAndPorts": [
         {
