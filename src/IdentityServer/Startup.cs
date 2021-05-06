@@ -8,10 +8,12 @@ using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace IdentityServer
 {
@@ -71,12 +73,25 @@ namespace IdentityServer
                 })
                 .AddAspNetIdentity<ApplicationUser>();
             /*.Services.AddTransient<IProfileService, ProfileService>();*/
+            
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             InitializeDatabase(app);
-            
+
+            app.UseForwardedHeaders();
+
+            if (env.IsProduction())
+            {
+                app.UsePathBase("/identity");
+            }
+
             app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
             
             app.UseStaticFiles();

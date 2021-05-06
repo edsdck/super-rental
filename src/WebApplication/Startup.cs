@@ -1,5 +1,7 @@
-using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,43 +10,43 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace WebApplication
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
             
             services.AddControllersWithViews();
-            services.AddAuth();
+            
+            services.AddCustomAuthentication(_configuration, _webHostEnvironment);
+            
             services.AddHttpClient();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            app.UseDeveloperExceptionPage();
 
             app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
-            
+
+            if (env.IsProduction())
+            {
+                app.UsePathBase("/mvc");
+            }
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -62,8 +64,12 @@ namespace WebApplication
 
     internal static class StartupExtensions
     {
-        internal static IServiceCollection AddAuth(this IServiceCollection services)
+        internal static IServiceCollection AddCustomAuthentication(this IServiceCollection services,
+            IConfiguration configuration,
+            IWebHostEnvironment env)
         {
+            var identityServerConfiguration = configuration.GetSection("IdentityServer");
+            
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "cookie";
@@ -75,18 +81,37 @@ namespace WebApplication
 
                     options.Events.OnSigningOut = async e =>
                     {
-                        // revoke refresh token on sign-out
                         await e.HttpContext.RevokeUserRefreshTokenAsync();
                     };
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
-                    options.Authority = "http://localhost:5555";
+                    options.Authority = identityServerConfiguration["Authority"];
 
-                    options.ClientId = "interactive";
-                    options.ClientSecret = "secret";
+                    if (env.IsProduction())
+                    {
+                        // internal kubernetes address to a resource
+                        options.MetadataAddress = $"{identityServerConfiguration["Authority"]}/.well-known/openid-configuration";
+                        
+                        // Intercept the redirection so the browser navigates to the right URL in your host
+                        options.Events.OnRedirectToIdentityProvider = context =>
+                        {
+                            context.ProtocolMessage.IssuerAddress = $"{identityServerConfiguration["IdentityClientUrl"]}/connect/authorize";
+                            return Task.CompletedTask;
+                        };
+                        
+                        // Intercept the redirection so the browser navigates to the right URL in your host
+                        options.Events.OnRedirectToIdentityProviderForSignOut = context =>
+                        {
+                            context.ProtocolMessage.IssuerAddress = $"{identityServerConfiguration["IdentityClientUrl"]}/connect/endsession";
+                            return Task.CompletedTask;
+                        };
+                    }
+
+                    options.ClientId = identityServerConfiguration["ClientId"];
+                    options.ClientSecret = identityServerConfiguration["Secret"];
                     options.RequireHttpsMetadata = false;
-                    // code flow + PKCE (PKCE is turned on by default)
+                    
                     options.ResponseType = "code";
 
                     options.Scope.Clear();
@@ -95,17 +120,32 @@ namespace WebApplication
                     options.Scope.Add("api1");
                     options.Scope.Add("offline_access");
                     
-                    options.ClaimActions.MapJsonKey("website", "website");
-                    /*options.SignedOutCallbackPath = "/signout-oidc";*/
                     // keeps id_token smaller
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
 
-                    options.TokenValidationParameters = new TokenValidationParameters
+                    if (env.IsProduction())
                     {
-                        NameClaimType = "name",
-                        RoleClaimType = "role"
-                    };
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
+                            {
+                                var client = new HttpClient();
+                                var response = client
+                                    .GetAsync(
+                                        $"{identityServerConfiguration["Authority"]}/.well-known/openid-configuration/jwks")
+                                    .Result;
+                                var responseString = response.Content.ReadAsStringAsync().Result;
+                                var keys = JsonConvert.DeserializeObject<JwkList>(responseString);
+
+                                return keys.Keys;
+                            },
+                            ValidIssuers = new List<string>
+                            {
+                                identityServerConfiguration["Authority"]
+                            }
+                        };
+                    }
                 });
 
             // adds user and client access token management
@@ -117,15 +157,15 @@ namespace WebApplication
                 })
                 .ConfigureBackchannelHttpClient();
 
-            // registers HTTP client that uses the managed user access token
-            services.AddUserAccessTokenClient("user_client",
-                client => { client.BaseAddress = new Uri("https://demo.identityserver.io/api/"); });
-
-            // registers HTTP client that uses the managed client access token
-            services.AddClientAccessTokenClient("client",
-                configureClient: client => { client.BaseAddress = new Uri("https://demo.identityserver.io/api/"); });
+            services.AddUserAccessTokenClient("user_client");
 
             return services;
         }
+    }
+    
+    public class JwkList
+    {
+        [JsonProperty("keys")]
+        public List<JsonWebKey> Keys { get; set; }
     }
 }

@@ -4,4 +4,5 @@ kubectl apply `
     -f ./reservations-api.yaml `
     -f ./identity-api.yaml `
     -f ./gateway.yaml `
+    -f ./mvc-client.yaml `
     -f ./ingress.yaml
