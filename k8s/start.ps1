@@ -5,4 +5,5 @@ kubectl apply `
     -f ./identity-api.yaml `
     -f ./gateway.yaml `
     -f ./mvc-client.yaml `
-    -f ./ingress.yaml
+    -f ./ingress.yaml `
+    -f ./gateway-ingress.yaml
