@@ -1,0 +1,45 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewBag.Title = "Rezervacijos redagavimas";
+    Layout = "_Layout";
+}
+
+<form style="margin-bottom: 2.5rem" asp-action="Edit">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="RentalId" type="hidden" />
+    
+    <div class="form-group">
+        <label asp-for="TenantName">Vardas</label>
+        <input asp-for="TenantName" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantLastName">Pavardė</label>
+        <input asp-for="TenantLastName" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantPhoneNumber">Telefono numeris</label>
+        <input asp-for="TenantPhoneNumber" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantEmail">El. paštas</label>
+        <input asp-for="TenantEmail" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDateUtc">Rezervacijos pradžia</label>
+        <input asp-for="StartDateUtc" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDateUtc">Rezervacijos pabaiga</label>
+        <input asp-for="EndDateUtc" type="text" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Išsaugoti</button>
+</form>
+
+<div class="mb-4">
+    <h3>Pavojinga zona</h3>
+</div>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" asp-route-rentalId="@Model.RentalId">
+    <button class="btn btn-outline-danger" type="submit">Ištrinti</button>
+</form>

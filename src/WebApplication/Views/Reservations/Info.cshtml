@@ -1,0 +1,36 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewBag.Title = "Rezervacijos informacija";
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    <a type="button" asp-action="Edit" asp-route-id="@Model.Id" asp-route-rentalId="@Model.RentalId" class="btn btn-outline-primary">Redaguoti</a>
+    <button type="button" class="btn btn-light" onclick="location.href = '@Url.Action("Details", "Rentals", new {id = Model.RentalId})'">Grįžti atgal</button>
+</div>
+
+<div class="form-group">
+    <label asp-for="TenantName">Vardas</label>
+    <input readonly asp-for="TenantName" type="text" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="TenantLastName">Pavardė</label>
+    <input readonly asp-for="TenantLastName" type="text" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="TenantPhoneNumber">Telefono numeris</label>
+    <input readonly asp-for="TenantPhoneNumber" type="text" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="TenantEmail">El. paštas</label>
+    <input readonly asp-for="TenantEmail" type="text" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="StartDateUtc">Rezervacijos pradžia</label>
+    <input readonly asp-for="StartDateUtc" type="text" class="form-control" />
+</div>
+<div class="form-group">
+    <label asp-for="EndDateUtc">Rezervacijos pabaiga</label>
+    <input readonly asp-for="EndDateUtc" type="text" class="form-control" />
+</div>

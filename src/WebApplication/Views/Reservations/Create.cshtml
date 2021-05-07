@@ -1,0 +1,36 @@
+﻿@model ReservationViewModel
+
+@{
+    ViewBag.Title = "Rezervacija";
+    Layout = "_Layout";
+}
+
+<form style="margin-bottom: 2.5rem" asp-action="Create">
+    <input asp-for="RentalId" type="hidden" />
+    
+    <div class="form-group">
+        <label asp-for="TenantName">Vardas</label>
+        <input asp-for="TenantName" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantLastName">Pavardė</label>
+        <input asp-for="TenantLastName" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantPhoneNumber">Telefono numeris</label>
+        <input asp-for="TenantPhoneNumber" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="TenantEmail">El. paštas</label>
+        <input asp-for="TenantEmail" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDateUtc">Rezervacijos pradžia</label>
+        <input type="date" asp-for="StartDateUtc" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDateUtc">Rezervacijos pabaiga</label>
+        <input type="date" asp-for="EndDateUtc" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Išsaugoti</button>
+</form>

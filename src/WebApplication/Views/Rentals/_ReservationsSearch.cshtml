@@ -1,0 +1,17 @@
+﻿@model RentalDetailsViewModel
+
+<form method="get" class="form-inline mb-2" asp-action="Details" asp-route-id="@Model.Details.Id">
+    <input type="date" class="form-control mr-1" asp-for="ReservationSearchModel.FromDate" name="FromDate" placeholder="Rezervacija nuo">
+
+    <input type="date" class="form-control mr-1" asp-for="ReservationSearchModel.ToDate" name="ToDate" placeholder="Rezervacija iki">
+
+    <button type="submit" class="btn btn-primary mr-2">Ieškoti</button>
+    
+    @if (!string.IsNullOrEmpty(Model.ReservationSearchModel.FromDate) ||
+         !string.IsNullOrEmpty(Model.ReservationSearchModel.ToDate))
+    {
+        <div class="col">
+            <button type="button" class="btn btn-light" onclick="location.href='@Url.Action("Details", new { id = @Model.Details.Id })'">Išvalyti paiešką</button>
+        </div>
+    }
+</form>

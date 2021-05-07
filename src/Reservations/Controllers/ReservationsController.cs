@@ -120,8 +120,8 @@ namespace Reservations.Controllers
             }
             
             var isOverlapping = _reservationsContext.Reservations.Any(res => res.RentalId == model.RentalId &&
-                                                                 res.StartDateUtc < res.EndDateUtc &&
-                                                                 res.EndDateUtc > res.StartDateUtc);
+                                                                 model.StartDateUtc < res.EndDateUtc &&
+                                                                 model.EndDateUtc > res.StartDateUtc);
 
             if (isOverlapping)
             {
@@ -166,6 +166,7 @@ namespace Reservations.Controllers
             }
             
             var reservation = await _reservationsContext.Reservations
+                .Include(res => res.Tenant)
                 .SingleOrDefaultAsync(res => res.Id == model.Id);
 
             if (reservation is null)
@@ -174,9 +175,9 @@ namespace Reservations.Controllers
             }
             
             var isOverlapping = _reservationsContext.Reservations.Any(res => res.RentalId == model.RentalId &&
-                                                                             res.StartDateUtc < res.EndDateUtc &&
-                                                                             res.EndDateUtc > res.StartDateUtc);
-
+                                                                             model.StartDateUtc < res.EndDateUtc &&
+                                                                             model.EndDateUtc > res.StartDateUtc &&
+                                                                             res.Id != model.Id);
             if (isOverlapping)
             {
                 return BadRequest("Date is already booked.");

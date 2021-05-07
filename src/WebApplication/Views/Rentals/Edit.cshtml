@@ -1,0 +1,35 @@
+﻿@model RentalViewModel
+
+@{
+    ViewBag.Title = $"{Model.Name} redagavimas | Nuomos objektas";
+    Layout = "_Layout";
+}
+
+<div class="mb-4">
+    <h3>Bendra informacija</h3>
+</div>
+
+<form style="margin-bottom: 2.5rem" asp-action="Edit" asp-route-id="@Model.Id">
+    <input asp-for="Id" type="hidden" />
+    <div class="form-group">
+        <label asp-for="Name">Pavadinimas</label>
+        <input asp-for="Name" type="text" class="form-control" placeholder="Įveskite pavadinimą"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Aprašymas</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address">Adresas</label>
+        <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Išsaugoti</button>
+</form>
+
+<div class="mb-4">
+    <h3>Pavojinga zona</h3>
+</div>
+
+<button class="btn btn-outline-danger" data-toggle="modal" data-target="#remove-project-modal">Ištrinti</button>
+
+<partial name="_RemoveModal" model="Model" />

@@ -1,0 +1,38 @@
+﻿@model RentalViewModel
+
+<div class="modal" tabindex="-1" role="dialog" id="remove-project-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Projekto pašalinimas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="Delete" asp-route-id="@Model.Id">
+                <div class="modal-body">
+                    <p>
+                        Prieš tęsdami įsitikinkite ar tikrai norite ištrinti šį nuomos objektą. Galimybės grįžti atgal <strong>nėra</strong>.
+                        Ištrindami nuomos objektą ištrinsite ir praėjusias rezervacijas.
+                        <b>Ištrinti nepavyks, jeigu yra aktyvių rezervacijų.</b>
+                    </p>
+                    <p>Prašome įvesti <strong>@Model.Name</strong> į žemiau esantį langelį.</p>
+                    <input class="form-control" id="confirmation-input" name="ConfirmationInput" type="text" />
+                </div>
+                <div class="modal-footer">
+                    <button id="confirmation-button" class="btn btn-outline-danger" type="submit" disabled>Patvirtinu ir ištrinti projektą</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.querySelector('#confirmation-input')
+        .addEventListener('input',
+        (event) => {
+            const button = document.querySelector('#confirmation-button');
+            
+            button.disabled = event.target.value !== '@Model.Name';
+        });
+</script>

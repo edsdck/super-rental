@@ -1,0 +1,13 @@
+﻿@model IEnumerable<RentalViewModel>
+
+<div class="d-flex flex-wrap">
+    @foreach (var rental in Model)
+    {
+        <div class="card d-flex" style="width: 18rem; margin-right: 2rem; margin-bottom: 2rem;">
+            <div class="card-body">
+                <a asp-action="Details" asp-controller="Rentals" asp-route-id="@rental.Id"><h5 class="card-title">@rental.Name</h5></a>
+                <p class="card-text">@rental.Description</p>
+            </div>
+        </div>
+    }
+</div>

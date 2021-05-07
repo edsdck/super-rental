@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using WebApplication.Services;
 
 namespace WebApplication
 {
@@ -34,6 +36,7 @@ namespace WebApplication
             services.AddCustomAuthentication(_configuration, _webHostEnvironment);
             
             services.AddHttpClient();
+            services.AddTransient<IGatewayService, GatewayService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -128,6 +131,8 @@ namespace WebApplication
                     {
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
+                            // hack: after fresh initialization of the pod for the first authentication JWKS are not found and exception is thrown.
+                            // more: https://github.com/FusionAuth/fusionauth-issues/issues/368
                             IssuerSigningKeyResolver = (token, securityToken, kid, parameters) =>
                             {
                                 var client = new HttpClient();
@@ -157,7 +162,10 @@ namespace WebApplication
                 })
                 .ConfigureBackchannelHttpClient();
 
-            services.AddUserAccessTokenClient("user_client");
+            services.AddUserAccessTokenClient(WebDefaults.HttpGatewayClientName, client =>
+            {
+                client.BaseAddress = new Uri(configuration.GetSection("ServiceUrls")["Gateway"]);
+            });
 
             return services;
         }

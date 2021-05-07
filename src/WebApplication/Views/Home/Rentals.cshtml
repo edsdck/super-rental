@@ -1,0 +1,8 @@
+﻿@model IList<RentalViewModel>
+
+<ul>
+    @foreach (var rental in Model)
+    {
+        <li>@rental.Name</li>
+    }
+</ul>

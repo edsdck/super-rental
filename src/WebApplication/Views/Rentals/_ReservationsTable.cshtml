@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ReservationViewModel>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Nuomininkas</th>
+        <th scope="col">Nuo</th>
+        <th scope="col">Iki</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var res in Model)
+    {
+        <tr>
+            <td>@res.TenantName @res.TenantLastName</td>
+            <td>@res.StartDateUtc</td>
+            <td>@res.EndDateUtc</td>
+            <td><button class="btn btn-info" onclick="location.href='@Url.Action("Info", "Reservations", new { id = res.Id, rentalId = res.RentalId })'" type="button">Peržiūrėti</button></td>
+        </tr>
+    }
+   
+    </tbody>
+</table>

@@ -1,0 +1,14 @@
+﻿@model RentalDetailsViewModel
+
+@{
+    ViewBag.Title = $"{Model.Details.Name} | Nuomos objektas";
+    Layout = "_Layout";
+}
+
+<div class="mb-3">
+    <a type="button" asp-action="Create" asp-controller="Reservations" asp-route-rentalId="@Model.Details.Id" class="btn btn-outline-primary">Rezervuoti</a>
+    <a type="button" asp-action="Edit" asp-route-id="@Model.Details.Id" class="btn btn-outline-primary">Redaguoti nuomos objektą</a>
+</div>
+
+<partial name="_ReservationsSearch" />
+<partial for="Reservations" name="_ReservationsTable" />

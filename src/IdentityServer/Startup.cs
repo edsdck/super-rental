@@ -74,6 +74,8 @@ namespace IdentityServer
                 .AddAspNetIdentity<ApplicationUser>();
             /*.Services.AddTransient<IProfileService, ProfileService>();*/
             
+            // redirection to client application works incorrectly after OIDC authentication without those headers
+            // more: https://medium.com/@christopherlenard/identity-server-and-nginx-ingress-controller-in-kubernetes-7146c22a2466
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
