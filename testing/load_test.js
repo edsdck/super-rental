@@ -3,8 +3,8 @@ import http from 'k6/http';
 
 export let options = {
     stages: [
-        { duration: '5m', target: 500 },
-        { duration: '10m', target: 500 },
+        { duration: '5m', target: 250 },
+        { duration: '10m', target: 250 },
         { duration: '5m', target: 0 },
     ],
     insecureSkipTLSVerify: true,
@@ -17,7 +17,7 @@ export let options = {
     }
 };
 
-const BASE_URL = 'https://localhost';
+const BASE_URL = 'http://localhost/api';
 const USERNAME = 'bob';
 const PASSWORD = 'bob';
 
@@ -47,7 +47,11 @@ export default function () {
 
     let myRentals = http.get(`${BASE_URL}/rentals/me`, authHeaders).json();
 
-    check(myRentals, { 'retrieved reservations': (rent) => rent.length > 0 });
+    check(myRentals, { 'retrieved rentals': (resp) => resp.length > 0 });
+
+    let rentalReservations = http.get(`${BASE_URL}/rentals/4/reservations`, authHeaders).json();
+
+    check(rentalReservations, { 'retrieved reservations': (resp) => resp.length > 0 });
 
     sleep(1);
 }
