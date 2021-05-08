@@ -77,6 +77,11 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RentalViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
             var rental = await _gatewayService.Post("rentals", model);
 
             return rental.IsSuccess ?
@@ -97,6 +102,11 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(RentalViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Edit), new {id = model.Id});
+            }
+            
             var rental = await _gatewayService.Put("rentals", model);
 
             return rental.IsSuccess ?

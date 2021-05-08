@@ -46,6 +46,7 @@ namespace Reservations.Controllers
                 .Where(res => res.RentalId == rentalId &&
                               (!startDateUtc.HasValue || startDateUtc.Value <= res.EndDateUtc) &&
                               (!endDateUtc.HasValue || endDateUtc.Value >= res.StartDateUtc))
+                .OrderByDescending(res => res.StartDateUtc)
                 .ToListAsync();
             
             if (!reservations?.Any() ?? true)

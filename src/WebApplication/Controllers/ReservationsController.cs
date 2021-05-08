@@ -41,6 +41,11 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ReservationViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
             var reservation = await _gatewayService.Put("reservations", model);
 
             return reservation.IsSuccess
@@ -74,6 +79,11 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ReservationViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
             var response = await _gatewayService.Post("reservations", model);
 
             var reservation = response.IsSuccess

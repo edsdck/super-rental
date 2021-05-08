@@ -12,28 +12,34 @@
     <div class="form-group">
         <label asp-for="TenantName">Vardas</label>
         <input asp-for="TenantName" type="text" class="form-control" />
+        <span asp-validation-for="TenantName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="TenantLastName">Pavardė</label>
         <input asp-for="TenantLastName" type="text" class="form-control" />
+        <span asp-validation-for="TenantLastName" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="TenantPhoneNumber">Telefono numeris</label>
         <input asp-for="TenantPhoneNumber" type="text" class="form-control" />
+        <span asp-validation-for="TenantPhoneNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="TenantEmail">El. paštas</label>
         <input asp-for="TenantEmail" type="text" class="form-control" />
+        <span asp-validation-for="TenantEmail" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="StartDateUtc">Rezervacijos pradžia</label>
-        <input asp-for="StartDateUtc" type="text" class="form-control" />
+        <input id="start-date-input" asp-for="StartDateUtc" type="date" class="form-control" />
+        <span asp-validation-for="StartDateUtc" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="EndDateUtc">Rezervacijos pabaiga</label>
-        <input asp-for="EndDateUtc" type="text" class="form-control" />
+        <input id="end-date-input" asp-for="EndDateUtc" type="date" class="form-control" />
+        <span asp-validation-for="EndDateUtc" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Išsaugoti</button>
+    <button id="reservation-button" type="submit" class="btn btn-primary">Išsaugoti</button>
 </form>
 
 <div class="mb-4">
@@ -43,3 +49,25 @@
 <form asp-action="Delete" asp-route-id="@Model.Id" asp-route-rentalId="@Model.RentalId">
     <button class="btn btn-outline-danger" type="submit">Ištrinti</button>
 </form>
+
+<script type="text/javascript">
+    document.querySelector('#start-date-input')
+        .addEventListener('input',
+        (event) => {
+            disableSubmitButtonIfNeeded();
+        });
+    
+        document.querySelector('#end-date-input')
+            .addEventListener('input',
+            (event) => {
+                disableSubmitButtonIfNeeded();
+            });
+        
+        function disableSubmitButtonIfNeeded() {
+            const button = document.querySelector('#reservation-button');
+            const startDateValue = document.querySelector('#start-date-input').value;
+            const endDateValue = document.querySelector('#end-date-input').value;
+            
+            button.disabled = (Date.parse(startDateValue) > Date.parse(endDateValue));
+        }
+</script>

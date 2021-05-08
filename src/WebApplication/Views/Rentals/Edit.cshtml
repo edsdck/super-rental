@@ -14,6 +14,7 @@
     <div class="form-group">
         <label asp-for="Name">Pavadinimas</label>
         <input asp-for="Name" type="text" class="form-control" placeholder="Įveskite pavadinimą"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Description">Aprašymas</label>
@@ -22,6 +23,7 @@
     <div class="form-group">
         <label asp-for="Address">Adresas</label>
         <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Address" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Išsaugoti</button>
 </form>

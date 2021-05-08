@@ -14,8 +14,8 @@
     {
         <tr>
             <td>@res.TenantName @res.TenantLastName</td>
-            <td>@res.StartDateUtc</td>
-            <td>@res.EndDateUtc</td>
+            <td>@res.StartDateUtc!.Value.ToString("yyyy-MM-dd")</td>
+            <td>@res.EndDateUtc!.Value.ToString("yyyy-MM-dd")</td>
             <td><button class="btn btn-info" onclick="location.href='@Url.Action("Info", "Reservations", new { id = res.Id, rentalId = res.RentalId })'" type="button">Peržiūrėti</button></td>
         </tr>
     }
