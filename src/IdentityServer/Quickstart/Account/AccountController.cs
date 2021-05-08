@@ -16,8 +16,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using IdentityServer.Data.Entities;
+using IdentityServer.Quickstart.Account;
 using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServerHost.Quickstart.UI
@@ -54,6 +56,28 @@ namespace IdentityServerHost.Quickstart.UI
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel viewModel)
+        {
+            try
+            {
+                var user = new ApplicationUser
+                {
+                    EmailConfirmed = true,
+                    Email = viewModel.Email,
+                    UserName = viewModel.Email
+                };
+            
+                var result = await _users.CreateAsync(user, viewModel.Password);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
         }
 
         /// <summary>

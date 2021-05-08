@@ -41,6 +41,10 @@
     <button id="reservation-button" type="submit" class="btn btn-primary">Išsaugoti</button>
 </form>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
 <script type="text/javascript">
     document.querySelector('#start-date-input')
         .addEventListener('input',

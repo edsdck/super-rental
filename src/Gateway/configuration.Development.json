@@ -88,6 +88,20 @@
           "Port": 5555
         }
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/account/register",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/account/register",
+      "UpstreamHttpMethod": [
+        "Post"
+      ],
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5555
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {}

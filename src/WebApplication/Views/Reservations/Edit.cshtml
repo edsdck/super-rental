@@ -50,6 +50,10 @@
     <button class="btn btn-outline-danger" type="submit">Ištrinti</button>
 </form>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
 <script type="text/javascript">
     document.querySelector('#start-date-input')
         .addEventListener('input',
